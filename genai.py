@@ -1,6 +1,6 @@
 import google.generativeai as genai
 
-def get_chatbot_response(question, transcript, code, api_key):
+def get_chatbot_response(question, transcript, code, api_key, image=None):
     # Configure the API key
     genai.configure(api_key=api_key)
 
@@ -16,7 +16,7 @@ def get_chatbot_response(question, transcript, code, api_key):
     Answer the following question based on the provided lecture transcript: '{question}'. 
     Chatbot's Answer: """
 
-    return model.generate_content(prompt)
+    return model.generate_content([{'mime_type':'image/jpeg', 'data': image}, prompt])
 
 if __name__ == "__main__":
     print(get_chatbot_response("What is the lecture about?").text)
