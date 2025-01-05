@@ -16,7 +16,9 @@ st.title("Zero to hero Chatbot")  # Set the title of your app
 uploaded_image = st.file_uploader("Upload an image related to your question (optional)", type=["jpg", "png", "jpeg"])
 
 # Create a text input for the user to enter their question
-question = st.text_input("Ask me anything about the lecture:")
+question = st.text_area("Ask me anything about the lecture:", height=100)  # Set a fixed height (e.g., 100 pixels)
+
+submitted = st.button("Submit")  # Add a submit button
 
 if question:
     image_content = None
