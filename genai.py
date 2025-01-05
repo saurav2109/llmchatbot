@@ -19,4 +19,4 @@ def get_chatbot_response(question, transcript, code, api_key, image=None):
     return model.generate_content([{'mime_type':'image/jpeg', 'data': image}, prompt])
 
 if __name__ == "__main__":
-    print(get_chatbot_response("What is the lecture about?").text)
+    pass

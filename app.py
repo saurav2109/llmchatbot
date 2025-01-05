@@ -4,10 +4,10 @@ import base64
 
 api_key = st.secrets["API_KEY"]
 
-with open('transcript1.txt', 'r') as f: 
+with open('sources/transcript1.txt', 'r') as f: 
     transcript = f.readlines()
 
-with open('code1.txt', 'r') as f: 
+with open('sources/code1.txt', 'r') as f: 
     code = f.readlines()    
 
 st.title("Zero to hero Chatbot")  # Set the title of your app
