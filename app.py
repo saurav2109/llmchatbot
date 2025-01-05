@@ -1,5 +1,5 @@
 import streamlit as st
-from starts import get_chatbot_response  
+from genai import get_chatbot_response  
 
 api_key = st.secrets["API_KEY"]
 
