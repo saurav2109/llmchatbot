@@ -16,7 +16,10 @@ def get_chatbot_response(question, transcript, code, api_key, image=None):
     Answer the following question based on the provided lecture transcript: '{question}'. 
     Chatbot's Answer: """
 
-    return model.generate_content([{'mime_type':'image/jpeg', 'data': image}, prompt])
+    if image:
+        return model.generate_content([{'mime_type':'image/jpeg', 'data': image}, prompt])
+    else:
+        return model.generate_content(prompt)
 
 if __name__ == "__main__":
     pass
