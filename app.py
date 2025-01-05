@@ -9,12 +9,12 @@ st.title("Zero to hero Chatbot")  # Set the title of your app
 # Chatbot Selection in Sidebar
 st.sidebar.title("Chatbot Selection")
 chatbot_options = {
-    "Chatbot 1": {"image": "sources/images/image1.jpg", "transcript": "sources/transcript1.txt", "code": "sources/code1.txt"},
-    "Chatbot 2": {"image": "sources/images/image2.jpg", "transcript": "sources/transcript2.txt", "code": "sources/code2.txt"},
+    "Lecture 1: The spelled-out intro to neural networks and backpropagation: building micrograd": {"image": "sources/images/image1.jpg", "transcript": "sources/transcript1.txt", "code": "sources/code1.txt"},
+    "Lecture 2: The spelled-out intro to language modeling: building makemore": {"image": "sources/images/image2.jpg", "transcript": "sources/transcript2.txt", "code": "sources/code2.txt"},
     # Add more chatbots as needed
 }
 
-selected_chatbot = st.sidebar.selectbox("Choose a Chatbot", list(chatbot_options.keys()))
+selected_chatbot = st.sidebar.selectbox("Choose a chatbot", list(chatbot_options.keys()))
 
 # Display the selected chatbot's image
 st.sidebar.image(chatbot_options[selected_chatbot]["image"], use_container_width=True)
