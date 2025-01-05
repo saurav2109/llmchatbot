@@ -9,9 +9,15 @@ st.title("Zero to hero Chatbot")  # Set the title of your app
 # Chatbot Selection in Sidebar
 st.sidebar.title("Chatbot Selection")
 chatbot_options = {
-    "Lecture 1: The spelled-out intro to neural networks and backpropagation: building micrograd": {"image": "sources/images/image1.jpg", "transcript": "sources/transcript1.txt", "code": "sources/code1.txt"},
-    "Lecture 2: The spelled-out intro to language modeling: building makemore": {"image": "sources/images/image2.jpg", "transcript": "sources/transcript2.txt", "code": "sources/code2.txt"},
-    # Add more chatbots as needed
+    "Lecture 1: The spelled-out intro to neural networks and backpropagation: building micrograd": {"image": "sources/images/image1.jpg", "transcript": "sources/transcripts/transcript1.txt", "code": "sources/codes/code1.txt"},
+    "Lecture 2: The spelled-out intro to language modeling: building makemore": {"image": "sources/images/image2.jpg", "transcript": "sources/transcripts/transcript2.txt", "code": "sources/codes/code2.txt"},
+    "Lecture 3: Building makemore Part 2: MLP": {"image": "sources/images/image3.jpg", "transcript": "sources/transcripts/transcript3.txt", "code": "sources/codes/code3.txt"},
+    "Lecture 4: Building makemore Part 3: Activations & Gradients, BatchNorm: building minGPT": {"image": "sources/images/image4.jpg", "transcript": "sources/transcripts/transcript4.txt", "code": "sources/codes/code4.txt"},
+    "Lecture 5: Building makemore Part 4: Becoming a Backprop Ninja": {"image": "sources/images/image5.jpg", "transcript": "sources/transcripts/transcript5.txt", "code": "sources/codes/code5.txt"},
+    "Lecture 6: Building makemore Part 5: Building a WaveNetT": {"image": "sources/images/image6.jpg", "transcript": "sources/transcripts/transcript6.txt", "code": "sources/codes/code6.txt"},
+    "Lecture 7: Let's build GPT: from scratch, in code, spelled out.": {"image": "sources/images/image7.jpg", "transcript": "sources/transcripts/transcript7.txt", "code": "sources/codes/code7.txt"},
+    "Lecture 8: Let's build the GPT Tokenizer": {"image": "sources/images/image8.jpg", "transcript": "sources/transcripts/transcript8.txt", "code": "sources/codes/code8.txt"},
+    "Lecture 9: Let's reproduce GPT-2 (124M)": {"image": "sources/images/image9.jpg", "transcript": "sources/transcripts/transcript9.txt", "code": "sources/codes/code9.txt"},
 }
 
 selected_chatbot = st.sidebar.selectbox("Choose a chatbot", list(chatbot_options.keys()))
@@ -23,7 +29,7 @@ st.sidebar.image(chatbot_options[selected_chatbot]["image"], use_container_width
 uploaded_image = st.file_uploader("Upload an image related to your question (optional)", type=["jpg", "png", "jpeg"])
 
 # Create a text input for the user to enter their question
-question = st.text_area("Ask me anything about the lecture:", height=100)  # Set a fixed height (e.g., 100 pixels)
+question = st.text_area("Ask me anything about the lecture!:", height=100)  # Set a fixed height (e.g., 100 pixels)
 
 submitted = st.button("Submit")  # Add a submit button
 if submitted:
