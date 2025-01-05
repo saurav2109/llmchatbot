@@ -4,13 +4,20 @@ import base64
 
 api_key = st.secrets["API_KEY"]
 
-with open('sources/transcript1.txt', 'r') as f: 
-    transcript = f.readlines()
-
-with open('sources/code1.txt', 'r') as f: 
-    code = f.readlines()    
-
 st.title("Zero to hero Chatbot")  # Set the title of your app
+
+# Chatbot Selection in Sidebar
+st.sidebar.title("Chatbot Selection")
+chatbot_options = {
+    "Chatbot 1": {"image": "sources/images/image1.avif", "transcript": "sources/transcript1.txt", "code": "sources/code1.txt"},
+    "Chatbot 2": {"image": "sources/images/image2.avif", "transcript": "sources/transcript2.txt", "code": "sources/code2.txt"},
+    # Add more chatbots as needed
+}
+
+selected_chatbot = st.sidebar.selectbox("Choose a Chatbot", list(chatbot_options.keys()))
+
+# Display the selected chatbot's image
+st.sidebar.image(chatbot_options[selected_chatbot]["image"], use_column_width=True)
 
 # File uploader for the image
 uploaded_image = st.file_uploader("Upload an image related to your question (optional)", type=["jpg", "png", "jpeg"])
@@ -21,9 +28,18 @@ question = st.text_area("Ask me anything about the lecture:", height=100)  # Set
 submitted = st.button("Submit")  # Add a submit button
 if submitted:
     if question:
+
         image_content = None
         if uploaded_image is not None:
             image_data = uploaded_image.read()
+            transcript_file = chatbot_options[selected_chatbot]["transcript"]
+            code_file = chatbot_options[selected_chatbot]["code"]
+
+            with open(transcript_file, 'r') as f: 
+                transcript = f.readlines()
+
+            with open(code_file, 'r') as f: 
+                code = f.readlines()    
 
             # Encode the image data in base64
             image_content = base64.b64encode(image_data).decode("utf-8")
