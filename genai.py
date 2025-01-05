@@ -13,7 +13,7 @@ def get_chatbot_response(question, transcript, code, api_key, image=None):
 
     prompt = f"""Here is the lecture transcript: '{lecture_transcript}',
     and here is the relevant code: '{code}'. 
-    Answer the following question based on the provided lecture transcript: '{question}'. 
+    Answer the following question based on the provided lecture transcript. If the answer can be found within the transcript, please use that information. If the answer is not directly in the transcript, provide an informed response based on your broader knowledge, but make sure your answer is relevant and related to the topic of the transcript: '{question}'. 
     Chatbot's Answer: """
 
     if image:
