@@ -9,15 +9,15 @@ st.title("Zero to hero Chatbot")  # Set the title of your app
 # Chatbot Selection in Sidebar
 st.sidebar.title("Chatbot Selection")
 chatbot_options = {
-    "Chatbot 1": {"image": "sources/images/image1.avif", "transcript": "sources/transcript1.txt", "code": "sources/code1.txt"},
-    "Chatbot 2": {"image": "sources/images/image2.avif", "transcript": "sources/transcript2.txt", "code": "sources/code2.txt"},
+    "Chatbot 1": {"image": "sources/images/image1.jpg", "transcript": "sources/transcript1.txt", "code": "sources/code1.txt"},
+    "Chatbot 2": {"image": "sources/images/image2.jpg", "transcript": "sources/transcript2.txt", "code": "sources/code2.txt"},
     # Add more chatbots as needed
 }
 
 selected_chatbot = st.sidebar.selectbox("Choose a Chatbot", list(chatbot_options.keys()))
 
 # Display the selected chatbot's image
-st.sidebar.image(chatbot_options[selected_chatbot]["image"], use_column_width=True)
+st.sidebar.image(chatbot_options[selected_chatbot]["image"], use_container_width=True)
 
 # File uploader for the image
 uploaded_image = st.file_uploader("Upload an image related to your question (optional)", type=["jpg", "png", "jpeg"])
