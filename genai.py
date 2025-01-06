@@ -11,10 +11,24 @@ def get_chatbot_response(question, transcript, code, api_key, image=None):
 
     question = question
 
-    prompt = f"""Here is the lecture transcript: '{lecture_transcript}',
-    and here is the relevant code: '{code}'. 
-    Answer the following question based on the provided lecture transcript. If the answer can be found within the transcript, please use that information and show it as well as proof. If the answer is not directly in the transcript, provide an informed response based on your broader knowledge, but make sure your answer is relevant and related to the topic of the transcript: '{question}'. 
-    Chatbot's Answer: """
+    prompt = f"""**Task:** Answer the question below based on the provided lecture transcript and relevant code.
+
+    **Lecture Transcript:**
+    {lecture_transcript}
+
+    **Relevant Code:**
+    {code}
+
+    **Question:** {question}
+
+    **Reasoning Process:**
+
+    1. **Check the Lecture Transcript:** First, determine if the answer to the question is explicitly stated in the lecture transcript. If so, provide the answer and cite the relevant portion.
+    2. **Consider the Relevant Code:** If the answer isn't directly in the transcript, see if the provided code provides context or clues that can help answer the question.
+    3. **Use Broader Knowledge (If Necessary):** If the answer is not found in the transcript or code, provide an informed answer based on your general knowledge, ensuring it is relevant to the lecture's topic.
+
+    **Chatbot's Answer:**
+    """
 
     if image:
         return model.generate_content([{'mime_type':'image/jpeg', 'data': image}, prompt])
