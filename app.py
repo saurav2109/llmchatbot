@@ -54,5 +54,5 @@ if submitted:
             html_code = f'<img src="data:image/jpeg;base64,{image_content}" alt="Uploaded Image"/>'
             st.markdown(html_code, unsafe_allow_html=True)
 
-        response = get_chatbot_response(question, transcript[0], code[0], api_key, image=image_content)
+        response = get_chatbot_response(question, transcript, code, api_key, image=image_content)
         st.write("Chatbot's Answer:", response.text)
