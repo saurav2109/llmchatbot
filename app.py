@@ -36,17 +36,17 @@ if submitted:
     if question:
 
         image_content = None
+        
+        transcript_file = chatbot_options[selected_chatbot]["transcript"]
+        code_file = chatbot_options[selected_chatbot]["code"]
+
+        with open(transcript_file, 'r') as f: 
+            transcript = f.read()
+
+        with open(code_file, 'r') as f: 
+            code = f.read()    
         if uploaded_image is not None:
             image_data = uploaded_image.read()
-            transcript_file = chatbot_options[selected_chatbot]["transcript"]
-            code_file = chatbot_options[selected_chatbot]["code"]
-
-            with open(transcript_file, 'r') as f: 
-                transcript = f.readlines()
-
-            with open(code_file, 'r') as f: 
-                code = f.readlines()    
-
             # Encode the image data in base64
             image_content = base64.b64encode(image_data).decode("utf-8")
 
