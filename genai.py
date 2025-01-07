@@ -34,6 +34,3 @@ def get_chatbot_response(question, transcript, code, api_key, image=None):
         return model.generate_content([{'mime_type':'image/jpeg', 'data': image}, prompt])
     else:
         return model.generate_content(prompt)
-
-if __name__ == "__main__":
-    pass
