@@ -10,6 +10,22 @@ Each lectures are quite extensive (approximately 2 hours each). To manage the in
 
 2. **Context Injection:** The initial model will leverage context injection. The transcript will be provided as context to the LLM at query time, allowing the chatbot to answer questions accurately based on the provided information.
 
+## Example Usage
+
+1. The chatbot is hosted using **Streamlit**, and you can try it out here: [https://llmchatbot-for-lecture.streamlit.app/](https://llmchatbot-for-lecture.streamlit.app/).
+
+2. The chatbot provides accurate and context-aware responses, citing relevant portions of the lecture when possible. For example:  
+   ![Example1](sources/readme/screencapture1.png)
+
+3. You can compare how I and the chatbot answered a question from the official Discord server related to the lecture:  
+   - My response:  
+     ![Example2](sources/readme/screencapture2.png)  
+   - The chatbot's response:  
+     ![Example3](sources/readme/screencapture3.png)
+
+4. The chatbot takes every input seriously (even humorous ones), maintaining its focus on context and accuracy:  
+   ![Example4](sources/readme/screencapture4.png)
+
 ## Future Improvements and Enhancements
 
 Several improvements are planned to enhance the chatbot's capabilities and performance:
