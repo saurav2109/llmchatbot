@@ -36,11 +36,10 @@ st.sidebar.image(chatbot_options[selected_chatbot]["image"], use_container_width
 
 # Display the conversation history *above* the input
 st.write("## Conversation:")
-for message in st.session_state.conversation_history:
+for i, message in enumerate(st.session_state.conversation_history):
     if message["role"] == "user":
-        if 'image' in message:
+        if 'image' in message and i == len(st.session_state.conversation_history) - 1:  # Display image only for the latest user message
             st.image(base64.b64decode(message['image']), width=200)
-            message["image"] = None
         st.markdown(f"**You:** {message['content']}")
     elif message["role"] == "chatbot":
         st.markdown(f"**Chatbot:** {message['content']}")
@@ -66,8 +65,8 @@ def process_question():
         # Add user's question to the conversation history
         user_message = {"role": "user", "content": st.session_state.question}
 
-        if uploaded_image is not None:
-            image_data = uploaded_image.read()
+        if st.session_state.uploaded_image is not None:
+            image_data = st.session_state.uploaded_image.read()
             # Encode the image data in base64
             image_content = base64.b64encode(image_data).decode("utf-8")
             user_message["image"] = image_content
