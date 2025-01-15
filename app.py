@@ -40,6 +40,7 @@ for message in st.session_state.conversation_history:
     if message["role"] == "user":
         if 'image' in message:
             st.image(base64.b64decode(message['image']), width=200)
+            message["image"] = None
         st.markdown(f"**You:** {message['content']}")
     elif message["role"] == "chatbot":
         st.markdown(f"**Chatbot:** {message['content']}")
