@@ -37,9 +37,9 @@ st.sidebar.image(chatbot_options[selected_chatbot]["image"], use_container_width
 # Display the conversation history *above* the input
 st.write("## Conversation:")
 for i, message in enumerate(st.session_state.conversation_history):
-    st.markdown(f'{i, message['role'], message['content'], len(st.session_state.conversation_history)}')
+    st.markdown(f'{i, message['role'], message['content'], bool(message['image']), len(st.session_state.conversation_history)}')
     if message["role"] == "user":
-        if 'image' in message and i == len(st.session_state.conversation_history) - 1:
+        if 'image' in message and i == len(st.session_state.conversation_history) -2:
             st.image(base64.b64decode(message['image']), width=200)
         st.markdown(f"**You:** {message['content']}")
     elif message["role"] == "chatbot":
