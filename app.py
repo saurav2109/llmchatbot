@@ -46,7 +46,9 @@ for i, message in enumerate(st.session_state.conversation_history):
 st.write("---")  # Separator
 
 # File uploader for the image
-st.file_uploader("Upload an image related to your question (optional)", type=["jpg", "png", "jpeg"], key="file_uploader")
+if "file_uploader_key" not in st.session_state:
+    st.session_state["file_uploader_key"] = 0
+uploaded_image = st.file_uploader("Upload an image related to your question (optional)", type=["jpg", "png", "jpeg"], key=f"file_uploader_{st.session_state.file_uploader_key}")
 
 # Function to handle the submission
 def process_question():
@@ -65,8 +67,8 @@ def process_question():
         # Add user's question to the conversation history
         user_message = {"role": "user", "content": st.session_state.question}
 
-        if st.session_state.file_uploader is not None:
-            image_data = st.session_state.file_uploader.read()
+        if uploaded_image is not None:
+            image_data = uploaded_image.read()
             # Encode the image data in base64
             image_content = base64.b64encode(image_data).decode("utf-8")
             user_message["image"] = image_content
@@ -88,8 +90,8 @@ def process_question():
 
         # Clear the input area after submission
         st.session_state.question = ""
-        # Clear the file uploader widget
-        st.session_state.file_uploader = None
+        # Increment the file uploader key to force a reset
+        st.session_state.file_uploader_key += 1
 
 # Create a text input for the user to enter their question at the *bottom*
 st.text_area("Ask me anything about the lecture!:", height=100, key="question")
