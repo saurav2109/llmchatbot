@@ -38,7 +38,7 @@ st.sidebar.image(chatbot_options[selected_chatbot]["image"], use_container_width
 st.write("## Conversation:")
 for i, message in enumerate(st.session_state.conversation_history):
     if message["role"] == "user":
-        if 'image' in message and i == len(st.session_state.conversation_history) - 1:  # Display image only for the latest user message
+        if 'image' in message and i == len(st.session_state.conversation_history) - 1:
             st.image(base64.b64decode(message['image']), width=200)
         st.markdown(f"**You:** {message['content']}")
     elif message["role"] == "chatbot":
@@ -65,12 +65,12 @@ def process_question():
         # Add user's question to the conversation history
         user_message = {"role": "user", "content": st.session_state.question}
 
-        if st.session_state.uploaded_image is not None:
-            image_data = st.session_state.uploaded_image.read()
+        if uploaded_image is not None:
+            image_data = uploaded_image.read()
             # Encode the image data in base64
             image_content = base64.b64encode(image_data).decode("utf-8")
             user_message["image"] = image_content
-
+ 
         st.session_state.conversation_history.append(user_message)
 
         # Modify get_chatbot_response to accept conversation history
@@ -88,13 +88,9 @@ def process_question():
 
         # Clear the input area after submission
         st.session_state.question = ""
-        st.session_state.uploaded_image = None # Clear the uploaded image
 
 # Create a text input for the user to enter their question at the *bottom*
 st.text_area("Ask me anything about the lecture!:", height=100, key="question")
-
-# Store the uploaded image in session state
-st.session_state.uploaded_image = uploaded_image
 
 # Use the on_click argument to trigger the processing function
 st.button("Submit", on_click=process_question)
