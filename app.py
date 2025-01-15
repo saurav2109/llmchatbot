@@ -88,7 +88,6 @@ def process_question():
 
         # Clear the input area after submission
         st.session_state.question = ""
-        uploaded_image = None
 
 # Create a text input for the user to enter their question at the *bottom*
 st.text_area("Ask me anything about the lecture!:", height=100, key="question")
@@ -98,3 +97,5 @@ col1, col2 = st.columns([6, 1])  # Adjust the ratios as needed
 
 with col2:
     st.button("Submit", on_click=process_question)
+    
+uploaded_image = None
