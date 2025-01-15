@@ -22,13 +22,14 @@ def get_chatbot_response(question, transcript, code, api_key, image=None, conver
 
     prompt = f"""**Task:** Answer the question below based on the provided lecture transcript, relevant code, and the ongoing conversation history.
 
-    {history_str}
-
     **Lecture Transcript:**
     {lecture_transcript}
 
     **Relevant Code:**
     {code}
+
+    **Conversation History**
+    {history_str}
 
     **Question:** {question}
 
