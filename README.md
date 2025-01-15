@@ -12,7 +12,8 @@ Each lectures are quite extensive (approximately 2 hours each). To manage the in
 
 ## Example Usage
 
-1. The chatbot is hosted using **Streamlit**, and you can try it out here: [https://llmchatbot-for-lecture.streamlit.app/](https://llmchatbot-for-lecture.streamlit.app/).
+1. The chatbot is currently hosted using **Streamlit**, and you can try it out here: [https://llmchatbot-for-lecture.streamlit.app/](https://llmchatbot-for-lecture.streamlit.app/).
+   (Note: Hosting may transition to a different server with a different url in the future to accommodate expansion.)
 
 2. The chatbot provides accurate and context-aware responses, citing relevant portions of the lecture when possible. For example:  
    ![Example1](sources/readme/screencapture1.png)
