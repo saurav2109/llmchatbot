@@ -5,7 +5,7 @@ def get_chatbot_response(question, transcript, code, api_key, image=None, conver
     genai.configure(api_key=api_key)
 
     # Select the Gemini Pro model
-    model = genai.GenerativeModel('gemini-2.0-flash-exp')  
+    model = genai.GenerativeModel('gemini-2.0-flash-exp')
 
     lecture_transcript = transcript
 
@@ -42,14 +42,18 @@ def get_chatbot_response(question, transcript, code, api_key, image=None, conver
     **Chatbot's Answer:**
     """
 
+    generation_config = genai.types.GenerationConfig(
+        temperature=0.2  
+    )
+
     if image:
-        # Need to handle conversation history with multimodal input if the model supports it
-        # Gemini Pro Vision might be required for true multimodal conversation history
         content_parts = []
         if conversation_history:
             content_parts.append(history_str)
         content_parts.append({'mime_type':'image/jpeg', 'data': image})
         content_parts.append(prompt)
-        return model.generate_content(content_parts)
+        response = model.generate_content(content_parts, generation_config=generation_config)
     else:
-        return model.generate_content(prompt)
+        response = model.generate_content(prompt, generation_config=generation_config)
+
+    return response

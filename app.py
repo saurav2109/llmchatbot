@@ -46,15 +46,9 @@ st.write("---")  # Separator
 # File uploader for the image
 uploaded_image = st.file_uploader("Upload an image related to your question (optional)", type=["jpg", "png", "jpeg"])
 
-# Create a text input for the user to enter their question at the *bottom*
-if "question" not in st.session_state:
-    st.session_state.question = ""
-question = st.text_area("Ask me anything about the lecture!:", height=100, key="question")
-
-submitted = st.button("Submit")  # Add a submit button
-
-if submitted:
-    if question:
+# Function to handle the submission
+def process_question():
+    if st.session_state.question:
         image_content = None
 
         transcript_file = chatbot_options[selected_chatbot]["transcript"]
@@ -76,11 +70,11 @@ if submitted:
             st.markdown(html_code, unsafe_allow_html=True)
 
         # Add user's question to the conversation history
-        st.session_state.conversation_history.append({"role": "user", "content": question})
+        st.session_state.conversation_history.append({"role": "user", "content": st.session_state.question})
 
         # Modify get_chatbot_response to accept conversation history
         response = get_chatbot_response(
-            question,
+            st.session_state.question,
             transcript,
             code,
             api_key,
@@ -95,3 +89,9 @@ if submitted:
         st.session_state.question = ""
         # Rerun the app to display the updated conversation
         st.rerun()
+
+# Create a text input for the user to enter their question at the *bottom*
+st.text_area("Ask me anything about the lecture!:", height=100, key="question")
+
+# Use the on_click argument to trigger the processing function
+st.button("Submit", on_click=process_question)
