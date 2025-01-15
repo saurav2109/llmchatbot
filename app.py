@@ -35,7 +35,7 @@ if "current_chatbot" not in st.session_state or st.session_state.current_chatbot
 st.sidebar.image(chatbot_options[selected_chatbot]["image"], use_container_width=True)
 
 # Display the conversation history *above* the input
-st.write("## Conversation:")
+st.write("##")
 for i, message in enumerate(st.session_state.conversation_history):
     if message["role"] == "user":
         if 'image' in message:
