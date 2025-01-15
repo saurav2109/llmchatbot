@@ -88,6 +88,7 @@ def process_question():
 
         # Clear the input area after submission
         st.session_state.question = ""
+        uploaded_image = None
 
 # Create a text input for the user to enter their question at the *bottom*
 st.text_area("Ask me anything about the lecture!:", height=100, key="question")
