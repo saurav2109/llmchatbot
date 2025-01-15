@@ -93,4 +93,7 @@ def process_question():
 st.text_area("Ask me anything about the lecture!:", height=100, key="question")
 
 # Use the on_click argument to trigger the processing function
-st.button("Submit", on_click=process_question)
+col1, col2 = st.columns([3, 1])  # Adjust the ratios as needed
+
+with col2:
+    st.button("Submit", on_click=process_question)
