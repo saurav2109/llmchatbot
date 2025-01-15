@@ -40,28 +40,18 @@ for message in st.session_state.conversation_history:
     if message["role"] == "user":
         st.markdown(f"**You:** {message['content']}")
         if 'image' in message:
-            st.image(message['image'], width=200)
+                st.image(message['image'], width=200)
     elif message["role"] == "chatbot":
         st.markdown(f"**Chatbot:** {message['content']}")
-
-# Create a form to handle submission on Enter
-with st.form(key='chat_form'):
-    # File uploader for the image
-    uploaded_image = st.file_uploader("Upload an image related to your question (optional)", type=["jpg", "png", "jpeg"])
-
-    # Create a text input for the user to enter their question at the *bottom*
-    question = st.text_area("Ask me anything about the lecture!:", height=100, key="question")
-
-    # Submit button (can be triggered by Enter within the form)
-    submit_button = st.form_submit_button("Submit")
-
 st.write("---")  # Separator
+
+# File uploader for the image
+uploaded_image = st.file_uploader("Upload an image related to your question (optional)", type=["jpg", "png", "jpeg"])
 
 # Function to handle the submission
 def process_question():
     if st.session_state.question:
         image_content = None
-        image_for_display = None
 
         transcript_file = chatbot_options[selected_chatbot]["transcript"]
         code_file = chatbot_options[selected_chatbot]["code"]
@@ -72,16 +62,15 @@ def process_question():
         with open(code_file, 'r') as f:
             code = f.read()
 
+        # Add user's question to the conversation history
+        user_message = {"role": "user", "content": st.session_state.question}
+
         if uploaded_image is not None:
             image_data = uploaded_image.read()
             # Encode the image data in base64
             image_content = base64.b64encode(image_data).decode("utf-8")
-            image_for_display = uploaded_image  # Keep the uploaded file for display
+            user_message["image"] = image_content
 
-        # Add user's question and image (if any) to the conversation history
-        user_message = {"role": "user", "content": st.session_state.question}
-        if image_for_display:
-            user_message['image'] = image_for_display
         st.session_state.conversation_history.append(user_message)
 
         # Modify get_chatbot_response to accept conversation history
@@ -99,18 +88,13 @@ def process_question():
 
         # Clear the input area after submission
         st.session_state.question = ""
+        st.session_state.uploaded_image = None # Clear the uploaded image
 
-# Call process_question only when the form is submitted
-if st.session_state.get('chat_form_submitted'):
-    process_question()
-    # Reset the form submission state
-    st.session_state['chat_form_submitted'] = False
+# Create a text input for the user to enter their question at the *bottom*
+st.text_area("Ask me anything about the lecture!:", height=100, key="question")
 
-# Initialize form submission state if it doesn't exist
-if 'chat_form_submitted' not in st.session_state:
-    st.session_state['chat_form_submitted'] = False
+# Store the uploaded image in session state
+st.session_state.uploaded_image = uploaded_image
 
-# Update the form submission state when the button is clicked
-if submit_button:
-    st.session_state['chat_form_submitted'] = True
-    st.experimental_rerun()
+# Use the on_click argument to trigger the processing function
+st.button("Submit", on_click=process_question)
