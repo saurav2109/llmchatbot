@@ -1,10 +1,14 @@
 import streamlit as st
-from genai import get_chatbot_response  
+from genai import get_chatbot_response
 import base64
 
 api_key = st.secrets["API_KEY"]
 
 st.title("Zero to hero Chatbot")  # Set the title of your app
+
+# Initialize session state for conversation history
+if "conversation_history" not in st.session_state:
+    st.session_state.conversation_history = []
 
 # Chatbot Selection in Sidebar
 st.sidebar.title("Chatbot Selection")
@@ -22,6 +26,11 @@ chatbot_options = {
 
 selected_chatbot = st.sidebar.selectbox("Choose a chatbot", list(chatbot_options.keys()))
 
+# Initialize conversation history when a new chatbot is selected
+if "current_chatbot" not in st.session_state or st.session_state.current_chatbot != selected_chatbot:
+    st.session_state.current_chatbot = selected_chatbot
+    st.session_state.conversation_history = []
+
 # Display the selected chatbot's image
 st.sidebar.image(chatbot_options[selected_chatbot]["image"], use_container_width=True)
 
@@ -32,19 +41,20 @@ uploaded_image = st.file_uploader("Upload an image related to your question (opt
 question = st.text_area("Ask me anything about the lecture!:", height=100)  # Set a fixed height (e.g., 100 pixels)
 
 submitted = st.button("Submit")  # Add a submit button
+
 if submitted:
     if question:
-
         image_content = None
-        
+
         transcript_file = chatbot_options[selected_chatbot]["transcript"]
         code_file = chatbot_options[selected_chatbot]["code"]
 
-        with open(transcript_file, 'r') as f: 
+        with open(transcript_file, 'r') as f:
             transcript = f.read()
 
-        with open(code_file, 'r') as f: 
-            code = f.read()    
+        with open(code_file, 'r') as f:
+            code = f.read()
+
         if uploaded_image is not None:
             image_data = uploaded_image.read()
             # Encode the image data in base64
@@ -54,5 +64,26 @@ if submitted:
             html_code = f'<img src="data:image/jpeg;base64,{image_content}" alt="Uploaded Image"/>'
             st.markdown(html_code, unsafe_allow_html=True)
 
-        response = get_chatbot_response(question, transcript, code, api_key, image=image_content)
-        st.write("Chatbot's Answer:", response.text)
+        # Add user's question to the conversation history
+        st.session_state.conversation_history.append({"role": "user", "content": question})
+
+        # Modify get_chatbot_response to accept conversation history
+        response = get_chatbot_response(question, transcript, code, api_key, image=image_content, conversation_history=st.session_state.conversation_history)
+
+        # Add chatbot's response to the conversation history
+        st.session_state.conversation_history.append({"role": "chatbot", "content": response.text})
+
+        # Clear the input area after submission (optional)
+        st.session_state.question = ""  # Use a session state variable for the input
+
+# Display the conversation history
+st.write("---")
+st.write("## Conversation History:")
+for message in st.session_state.conversation_history:
+    if message["role"] == "user":
+        st.markdown(f"**You:** {message['content']}")
+    elif message["role"] == "chatbot":
+        st.markdown(f"**Chatbot:** {message['content']}")
+
+# You might need to adjust the text_area to use session state for clearing
+question = st.text_area("Ask me anything about the lecture!:", height=100, key="question")
