@@ -65,8 +65,8 @@ def process_question():
         # Add user's question to the conversation history
         user_message = {"role": "user", "content": st.session_state.question}
 
-        if st.session_state.file_uploader is not None:
-            image_data = st.session_state.file_uploader.read()
+        if st.session_state.uploaded_image is not None:
+            image_data = st.session_state.uploaded_image.read()
             # Encode the image data in base64
             image_content = base64.b64encode(image_data).decode("utf-8")
             user_message["image"] = image_content
@@ -88,9 +88,10 @@ def process_question():
 
         # Clear the input area after submission
         st.session_state.question = ""
-
-        # Clear the file uploader
-        st.session_state.file_uploader = None
+        # Reset uploaded_image to None after processing
+        st.session_state.uploaded_image = None
+        # Clear the file uploader widget
+        st.session_state.file_uploader = None  # This line clears the widget
 
 # Create a text input for the user to enter their question at the *bottom*
 st.text_area("Ask me anything about the lecture!:", height=100, key="question")
@@ -100,3 +101,8 @@ col1, col2 = st.columns([6, 1])  # Adjust the ratios as needed
 
 with col2:
     st.button("Submit", on_click=process_question)
+
+# Store the uploaded image in session state
+if "uploaded_image" not in st.session_state:
+    st.session_state.uploaded_image = None
+st.session_state.uploaded_image = uploaded_image
