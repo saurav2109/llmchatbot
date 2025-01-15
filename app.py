@@ -34,11 +34,22 @@ if "current_chatbot" not in st.session_state or st.session_state.current_chatbot
 # Display the selected chatbot's image
 st.sidebar.image(chatbot_options[selected_chatbot]["image"], use_container_width=True)
 
+# Display the conversation history *above* the input
+st.write("## Conversation:")
+for message in st.session_state.conversation_history:
+    if message["role"] == "user":
+        st.markdown(f"**You:** {message['content']}")
+    elif message["role"] == "chatbot":
+        st.markdown(f"**Chatbot:** {message['content']}")
+st.write("---")  # Separator
+
 # File uploader for the image
 uploaded_image = st.file_uploader("Upload an image related to your question (optional)", type=["jpg", "png", "jpeg"])
 
-# Create a text input for the user to enter their question
-question = st.text_area("Ask me anything about the lecture!:", height=100)  # Set a fixed height (e.g., 100 pixels)
+# Create a text input for the user to enter their question at the *bottom*
+if "question" not in st.session_state:
+    st.session_state.question = ""
+question = st.text_area("Ask me anything about the lecture!:", height=100, key="question")
 
 submitted = st.button("Submit")  # Add a submit button
 
@@ -68,22 +79,19 @@ if submitted:
         st.session_state.conversation_history.append({"role": "user", "content": question})
 
         # Modify get_chatbot_response to accept conversation history
-        response = get_chatbot_response(question, transcript, code, api_key, image=image_content, conversation_history=st.session_state.conversation_history)
+        response = get_chatbot_response(
+            question,
+            transcript,
+            code,
+            api_key,
+            image=image_content,
+            conversation_history=st.session_state.conversation_history,
+        )
 
         # Add chatbot's response to the conversation history
         st.session_state.conversation_history.append({"role": "chatbot", "content": response.text})
 
-        # Clear the input area after submission (optional)
-        st.session_state.question = ""  # Use a session state variable for the input
-
-# Display the conversation history
-st.write("---")
-st.write("## Conversation History:")
-for message in st.session_state.conversation_history:
-    if message["role"] == "user":
-        st.markdown(f"**You:** {message['content']}")
-    elif message["role"] == "chatbot":
-        st.markdown(f"**Chatbot:** {message['content']}")
-
-# You might need to adjust the text_area to use session state for clearing
-question = st.text_area("Ask me anything about the lecture!:", height=100, key="question")
+        # Clear the input area after submission
+        st.session_state.question = ""
+        # Rerun the app to display the updated conversation
+        st.rerun()
